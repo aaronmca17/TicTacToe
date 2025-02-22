@@ -49,7 +49,7 @@ function changePlayer() {
 }
 
 function checkWinner() {
-    let roundWin = false;
+    let roundWon = false;
 
     for (let i = 0; i < winCondition.length; i++) {
         const condition = winCondition[i];
@@ -60,10 +60,27 @@ function checkWinner() {
         if (cellA == "" || cellB == "" || cellC == "") {
             continue;
         }
+        if(cellA == cellB && cellB == cellC) {
+            roundWon = true;
+            break;
+        }
+    }
 
+    if(roundWon) {
+        statusText.textContent = `${currentPlayer} wins!`;
+        running = false;
+    } else if(!options.includes("")) {
+        statusText.textContent = `Draw!`;
+        running = false;
+    } else {
+        changePlayer();
     }
 }
 
 function restartGame() {
-
+    currentPlayer = "X";
+    options = ["", "", "", "", "", "", "", "", ""];
+    statusText.textContent = `${currentPlayer}'s turn`;
+    cells.forEach(cell => cell.textContent = "");
+    running = true;
 }
